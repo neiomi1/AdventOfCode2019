@@ -1,0 +1,3 @@
+module adventOfCode2019
+{
+}
