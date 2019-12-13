@@ -87,7 +87,9 @@ public class Orbits
 
     public static void main(String[] args)
     {
+        // TestCase
         // readOrbits("./src/day_06/TestCase1.txt");
+        // Part 1 and 2
         readOrbits("./src/day_06/OrbitMap.txt");
     }
 }
