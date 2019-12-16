@@ -1,4 +1,4 @@
-package day_05;
+package day_07;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +12,12 @@ public class IntCodeComputer
 {
 
     static Scanner input = new Scanner(System.in);
+
+    static List<Integer> outputList = new ArrayList<Integer>();
+
+    static List<Integer> inputList = new ArrayList<Integer>();
+
+    static int counter = 0;
 
     public static int[] intComputer(String path, Integer noun, Integer verb, boolean silent) throws ArrayIndexOutOfBoundsException
     {
@@ -43,6 +49,7 @@ public class IntCodeComputer
 
     public static int[] calculate(String[] computer, Integer noun, Integer verb, boolean silent) throws ArrayIndexOutOfBoundsException
     {
+        counter = 0;
         int[] input = parse_input(computer);
         if (!silent)
         {
@@ -137,17 +144,19 @@ public class IntCodeComputer
 
     public static void parseOpCodeInput(String[] computer, int programCounter, int[] parameterModes)
     {
-        System.out.println("Enter An Integer: ");
+        // System.out.println("Enter An Integer: ");
         int address = Integer.parseInt(computer[programCounter + 1]);
-        int userInput = input.nextInt();
-        computer[address] = String.valueOf(userInput);
-
+        // int userInput = input.nextInt();
+        // computer[address] = String.valueOf(userInput);
+        computer[address] = String.valueOf(inputList.get(counter));
+        counter++;
     }
 
     public static void parseOpCodeOutput(String[] computer, int programCounter, int[] parameterModes)
     {
         int address = parseParams(1, 3, computer, programCounter, parameterModes)[0];
-        System.out.println(String.format("The output is %d", address));
+        // System.out.println(String.format("The output is %d", address));
+        outputList.set(0, address);
     }
 
     public static int parseOpCodeJumpIf(String[] computer, int programCounter, int[] parameterModes, boolean isTrue)
@@ -292,13 +301,71 @@ public class IntCodeComputer
         return parsedParams;
     }
 
+    public static int runAmplifier(int[] setting)
+    {
+        int result = 0;
+        inputList.set(1, 0);
+        for (int n = 0; n < 5; n++)
+        {
+            inputList.set(0, setting[n]);
+            intComputer("./src/day_07/AmplifierCode.txt", null, null, true);
+            result = outputList.get(0);
+            inputList.set(1, result);
+        }
+        return result;
+    }
+
+    public static void getMaxAmplifier()
+    {
+        outputList.add(0);
+        inputList.add(0);
+        inputList.add(0);
+        int max = 0;
+        int[] maxPhase = new int[5];
+        for (int a = 0; a < 5; a++)
+        {
+            for (int b = 0; b < 5; b++)
+            {
+                for (int c = 0; c < 5; c++)
+                {
+                    for (int d = 0; d < 5; d++)
+                    {
+                        for (int e = 0; e < 5; e++)
+                        {
+                            if (a != b && a != c && a != d && a != e && b != c && b != d && b != e && c != d && c != e && d != e)
+                            {
+                                int result = runAmplifier(new int[]
+                                { a, b, c, d, e });
+                                System.out.println(String.format(" Settings [%d,%d,%d,%d,%d] result in %d", a, b, c, d, e, result));
+                                if (max < result)
+                                {
+                                    max = result;
+                                    maxPhase = new int[]
+                                    { a, b, c, d, e };
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+        System.out.println(max);
+        System.out.println(Arrays.toString(maxPhase));
+    }
+
     public static void main(String[] args)
     {
         // intComputer("./src/day_07/AmplifierCode.txt", null, null, false);
         // intComputer("./src/day_02/IntCode.txt", 12, 2, false);
         // System.out.println(Arrays.toString(find_pair(19690720)));
-        // intComputer("./src/day_05/TestDiagnostic.txt", null, null, true);
+        // intComputer("./src/day_07/AmplifierCode.txt", null, null, true);
         // intComputer("./src/day_05/TestExamples.txt", null, null, true);
-        intComputer("./src/day_07/example1.txt", null, null, true);
+        getMaxAmplifier();
+        // outputList.add(0);
+        // inputList.add(3);
+        // inputList.add(4);
+        // runAmplifier(new int[]
+        // { 4, 3, 2, 1, 0 });
     }
 }
