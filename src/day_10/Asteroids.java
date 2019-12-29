@@ -107,7 +107,7 @@ public class Asteroids
                 {
                     angle = Math.asin(x / tempDistance);
                 }
-                if (x >= 0 && y > 0)
+                else if (x >= 0 && y > 0)
                 {
                     angle = 180.0 - Math.asin(x / tempDistance);
                 }
@@ -115,7 +115,7 @@ public class Asteroids
                 {
                     angle = 180 + Math.asin(-1 * x / tempDistance);
                 }
-                if (x < 0 && y < 0)
+                else if (x < 0 && y < 0)
                 {
                     angle = 360 - Math.asin(-1 * x / tempDistance);
                 }
@@ -134,14 +134,14 @@ public class Asteroids
                     temp.add(viewGoal);
                     pointAngles.put(angle, temp);
                 }
-                if (viewGoal.getX() == 12 && viewGoal.getY() == 1)
-                {
-                    System.out.println("FIND " + angle);
-                    for (Point p : pointAngles.get(angle))
-                    {
-                        System.out.println(p);
-                    }
-                }
+                // if (viewGoal.getX() == 12 && viewGoal.getY() == 1)
+                // {
+                // System.out.println("FIND " + angle);
+                // for (Point p : pointAngles.get(angle))
+                // {
+                // System.out.println(p);
+                // }
+                // }
             }
         }
 
@@ -153,10 +153,11 @@ public class Asteroids
         }
         for (double angle : angles)
         {
-            if (angle == 0.896055384571344 || angle == 0.3671738338182192 || 0.19739555984988078 == angle)
-            {
-                System.out.println("Index" + angles.indexOf(angle));
-            }
+            // if (angle == 0.896055384571344 || angle == 0.3671738338182192 ||
+            // 0.19739555984988078 == angle)
+            // {
+            // System.out.println("Index" + angles.indexOf(angle));
+            // }
             System.out.println("Angle" + angle);
             for (Point p : pointAngles.get(angle))
             {
@@ -180,16 +181,17 @@ public class Asteroids
                             minPoint = p;
                         }
                     }
-                    if (minPoint.getX() == 8 && minPoint.getY() == 2)
-                    {
-                        System.err.println("Location of result : " + removeOrder.size());
-                        for (Point p : pointAngles.get(angles.get(i)))
-                        {
-                            System.out.println(angles.get(i));
-                            System.out.println(p);
-                            System.out.println(pointDistance.get(p));
-                        }
-                    }
+                    // if (minPoint.getX() == 8 && minPoint.getY() == 2)
+                    // {
+                    // System.err.println("Location of result : " +
+                    // removeOrder.size());
+                    // for (Point p : pointAngles.get(angles.get(i)))
+                    // {
+                    // System.out.println(angles.get(i));
+                    // System.out.println(p);
+                    // System.out.println(pointDistance.get(p));
+                    // }
+                    // }
                     removeOrder.add(minPoint);
                     pointAngles.get(angles.get(i)).remove(minPoint);
 
@@ -226,7 +228,9 @@ public class Asteroids
         testOne.loadInput("./src/day_10/test1.txt");
         System.err.println(testOne.findMostViews());
         System.out.println("Test One result: ");
-        result = testOne.phaseOrder(new Point(11, 13));
+        result = testOne.phaseOrder(new Point(11, 13)); // new Point(11, 13) is
+                                                        // equivalent to
+                                                        // testOne.findMostViews();
         for (int i = 0; i < result.size(); i++)
         {
             System.out.println(String.format("%d: %s", i + 1, result.get(i).toString()));
